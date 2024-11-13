@@ -111,22 +111,22 @@ jobs:
         with:
           python-version: '3.12.7'
 
-      # uncomment this block to deploy the infra
-      - name: venv
-        id: venv
-        run: |-
-          python3 -m venv .venv
-          source .venv/bin/activate
-          python -m pip install -r requirements.txt
-          cdk deploy --require-approval never
-
-      # # uncomment this block to tear down infra
-      # - name: destroy-venv
-      #   id: destroy-venv
+      # # uncomment this block to deploy the infra
+      # - name: venv
+      #   id: venv
       #   run: |-
       #     python3 -m venv .venv
       #     source .venv/bin/activate
       #     python -m pip install -r requirements.txt
-      #     cdk destroy --force
+      #     cdk deploy --require-approval never
+
+      # uncomment this block to tear down infra
+      - name: destroy-venv
+        id: destroy-venv
+        run: |-
+          python3 -m venv .venv
+          source .venv/bin/activate
+          python -m pip install -r requirements.txt
+          cdk destroy --force
 
       - run: echo "🍏 This job's status is ${{ job.status }}."
