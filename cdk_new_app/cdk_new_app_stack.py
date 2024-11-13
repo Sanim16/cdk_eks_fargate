@@ -84,8 +84,8 @@ class CdkNewAppStack(Stack):
                         }],
                         "containers": [{
                             "name": "max-app",
-                            "image": "public.ecr.aws/j0l0w3g7/node-ecr-repo:latest",
-                            "ports": [{"containerPort": 3000}],
+                            "image": "paulbouwer/hello-kubernetes:1.5",
+                            "ports": [{"containerPort": 8080}],
                             "resources": {
                                 "requests": {
                                     "memory": "1024Mi",
@@ -110,7 +110,7 @@ class CdkNewAppStack(Stack):
                          "namespace": "maxapp"},
             "spec": {
                 "type": "NodePort",
-                "ports": [{"port": 3000, "targetPort": 3000}],
+                "ports": [{"port": 8080, "targetPort": 8080}],
                 "selector": app_label
             }
         }
