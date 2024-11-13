@@ -88,12 +88,12 @@ class CdkNewAppStack(Stack):
                             "ports": [{"containerPort": 3000}],
                             "resources": {
                                 "requests": {
-                                    "memory": "64Mi",
-                                    "cpu": "250m"
+                                    "memory": "1024Mi",
+                                    "cpu": "1000m"
                                 },
                                 "limits": {
-                                    "memory": "256Mi",
-                                    "cpu": "1000m"
+                                    "memory": "2048Mi",
+                                    "cpu": "2000m"
                                 }
                             }
                         }
