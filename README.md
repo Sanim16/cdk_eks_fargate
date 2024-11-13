@@ -13,7 +13,7 @@ The project defines an Amazon EKS cluster with the following configuration:
 * Fargate Profile - Fargate worker nodes managed by EKS.
 * KubectlHandler - Lambda function for invoking kubectl commands on the cluster - created by CDK.
 * AWS Load Balancer Controller to help manage Elastic Load Balancers for the Kubernetes cluster.
-* A Kubernetes deployment with 3 replicas running pods with a container based on the image created from the `./maxapp/` folder.
+* A Kubernetes deployment with 3 replicas running pods with a container based on the image created from the `./nodeapp/` folder.
 * A Kubernetes service to expose the app
 * A Kubernetes Ingress resource 
 
@@ -43,7 +43,7 @@ At this point you can now synthesize the CloudFormation template for this code.
 $ cdk synth
 ```
 
-You can now begin exploring the source code, contained in the `./maxapp/` directory.
+You can now begin exploring the source code, contained in the `./nodeapp/` directory.
 There is also a very trivial test included that can be run like this:
 
 ```
