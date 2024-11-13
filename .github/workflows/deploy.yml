@@ -91,6 +91,8 @@ jobs:
       - run: echo "🍏 This job's status is ${{ job.status }}."
 
   Deploy:
+    needs:
+      - infra-test
     if: github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:
