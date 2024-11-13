@@ -127,7 +127,7 @@ class CdkNewAppStack(Stack):
             },
             "spec": {
                 "ingressClassName": "alb",
-                "rules": [{"http": {"paths": [{"path": "/", "pathType": "Prefix", "backend": {"service": {"name": "hello-kubernetes", "port": {"number": 80}}}}]}}]
+                "rules": [{"http": {"paths": [{"path": "/", "pathType": "Prefix", "backend": {"service": {"name": "hello-kubernetes", "port": {"number": 8080}}}}]}}]
             }
         }
 
