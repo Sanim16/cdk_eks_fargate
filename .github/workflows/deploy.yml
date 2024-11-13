@@ -49,8 +49,8 @@ jobs:
           REPOSITORY: node-ecr-repo
           IMAGE_TAG: ${{ github.sha }}
         run: |
-          docker build -t $REGISTRY/$REGISTRY_ALIAS/$REPOSITORY:$IMAGE_TAG .
-          docker push $REGISTRY/$REGISTRY_ALIAS/$REPOSITORY:$IMAGE_TAG
+          docker build -t $REGISTRY/$REGISTRY_ALIAS/$REPOSITORY:$IMAGE_TAG -t $REGISTRY/$REGISTRY_ALIAS/$REPOSITORY:latest .
+          docker push $REGISTRY/$REGISTRY_ALIAS/$REPOSITORY --all-tags
         working-directory: ./nodeapp
 
   infra-test:
@@ -111,22 +111,22 @@ jobs:
         with:
           python-version: '3.12.7'
 
-      # # uncomment this block to deploy the infra
-      # - name: venv
-      #   id: venv
-      #   run: |-
-      #     python3 -m venv .venv
-      #     source .venv/bin/activate
-      #     python -m pip install -r requirements.txt
-      #     cdk deploy --require-approval never
-
-      # uncomment this block to tear down infra
-      - name: destroy-venv
-        id: destroy-venv
+      # uncomment this block to deploy the infra
+      - name: venv
+        id: venv
         run: |-
           python3 -m venv .venv
           source .venv/bin/activate
           python -m pip install -r requirements.txt
-          cdk destroy --force
+          cdk deploy --require-approval never
+
+      # # uncomment this block to tear down infra
+      # - name: destroy-venv
+      #   id: destroy-venv
+      #   run: |-
+      #     python3 -m venv .venv
+      #     source .venv/bin/activate
+      #     python -m pip install -r requirements.txt
+      #     cdk destroy --force
 
       - run: echo "🍏 This job's status is ${{ job.status }}."
