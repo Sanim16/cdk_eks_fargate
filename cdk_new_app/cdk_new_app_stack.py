@@ -84,7 +84,7 @@ class CdkNewAppStack(Stack):
                         }],
                         "containers": [{
                             "name": "max-app",
-                            "image": "paulbouwer/hello-kubernetes:1.5",
+                            "image": "public.ecr.aws/j0l0w3g7/node-ecr-repo:latest",
                             "ports": [{"containerPort": 3000}],
                             "resources": {
                                 "requests": {
