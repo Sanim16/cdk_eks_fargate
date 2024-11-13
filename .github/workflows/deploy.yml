@@ -1,0 +1,121 @@
+# name: CICD with AWS CDK
+# run-name: ${{ github.actor }} pushed a change via GitHub Actions 🚀
+# on:
+#   push:
+#     branches: [ "main", "master" ]
+#   pull_request:
+#     branches: [ "main", "master" ]
+
+# env:
+#   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#   REGISTRY_ALIAS: ${{ secrets.REGISTRY_ALIAS }}
+
+# concurrency:
+#   group: ${{ github.workflow }}-${{ github.ref || github.run_id }}
+#   cancel-in-progress: true
+# permissions:
+#   pull-requests: write
+
+# jobs:
+#   build:
+#     # This job should be set to only run if there is a change in the Dockerfile
+#     permissions:
+#       contents: read # for actions/checkout to fetch code
+#       security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
+#       actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
+      
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Check out repository code
+#         uses: actions/checkout@v4
+
+#       - name: Configure AWS credentials
+#         uses: aws-actions/configure-aws-credentials@v4
+#         with:
+#           aws-region: us-east-1
+
+#         # an action can be added here to test the image before building
+#       - name: Login to Amazon ECR Public
+#         id: login-ecr-public
+#         uses: aws-actions/amazon-ecr-login@v2
+#         with:
+#           registry-type: public
+
+#       - name: Build, tag, and push docker image to Amazon ECR Public
+#         env:
+#           REGISTRY: ${{ steps.login-ecr-public.outputs.registry }}
+#           REGISTRY_ALIAS: ${{ env.REGISTRY_ALIAS }}
+#           REPOSITORY: node-ecr-repo
+#           IMAGE_TAG: ${{ github.sha }}
+#         run: |
+#           docker build -t $REGISTRY/$REGISTRY_ALIAS/$REPOSITORY:$IMAGE_TAG .
+#           docker push $REGISTRY/$REGISTRY_ALIAS/$REPOSITORY:$IMAGE_TAG
+#         working-directory: ./nodeapp
+
+#   infra-test:
+#     needs:
+#       - build
+#     if: |
+#       github.event_name == 'pull_request'
+#     # && always() && 
+#     # (needs.build.result == 'skipped' || needs.build.result == 'success') &&
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Check out repository code
+#         uses: actions/checkout@v4
+
+#       - name: Configure AWS credentials
+#         uses: aws-actions/configure-aws-credentials@v4
+#         with:
+#           aws-region: us-east-1
+
+#       - uses: actions/setup-node@v4
+#         with:
+#           node-version: 22
+#       - run: npm install -g aws-cdk
+#       - uses: actions/setup-python@v5
+#         with:
+#           python-version: '3.12.7'
+
+#       - name: venv
+#         id: venv
+#         run: |-
+#           python3 -m venv .venv
+#           source .venv/bin/activate
+#           python -m pip install -r requirements.txt
+#           cdk bootstrap
+#           cdk diff
+#           cdk synth
+      
+#       - run: echo "🍏 This job's status is ${{ job.status }}."
+
+#   Deploy:
+#     if: github.event_name == 'push'
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Check out repository code
+#         uses: actions/checkout@v4
+#       - name: Configure AWS credentials
+#         uses: aws-actions/configure-aws-credentials@v4
+#         with:
+#           aws-region: us-east-1
+
+#       - uses: actions/setup-node@v4
+#         with:
+#           node-version: 22
+#       - run: npm install -g aws-cdk
+#       - uses: actions/setup-python@v5
+#         with:
+#           python-version: '3.12.7'
+
+#       - name: venv
+#         id: venv
+#         run: |-
+#           python3 -m venv .venv
+#           source .venv/bin/activate
+#           python -m pip install -r requirements.txt
+#           pip install aws-cdk.lambda-layer-kubectl-v31
+#           cdk deploy --require-approval never
+
+#       - run: echo "🍏 This job's status is ${{ job.status }}."

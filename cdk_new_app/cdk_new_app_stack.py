@@ -84,8 +84,8 @@ class CdkNewAppStack(Stack):
                         }],
                         "containers": [{
                             "name": "max-app",
-                            "image": "public.ecr.aws/j0l0w3g7/max-ecr-repo:f64a0ce447a188c15028d4759234fb4798e1ad5a", # The image deployed in docker would be here
-                            "ports": [{"containerPort": 80}]
+                            "image": "public.ecr.aws/j0l0w3g7/node-ecr-repo:latest",
+                            "ports": [{"containerPort": 3000}]
                         }
                         ]
                     }
@@ -100,7 +100,7 @@ class CdkNewAppStack(Stack):
                          "namespace": "maxapp"},
             "spec": {
                 "type": "NodePort",
-                "ports": [{"port": 80, "targetPort": 80}],
+                "ports": [{"port": 80, "targetPort": 3000}],
                 "selector": app_label
             }
         }
