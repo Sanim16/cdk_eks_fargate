@@ -85,7 +85,7 @@ class CdkNewAppStack(Stack):
                         "containers": [{
                             "name": "max-app",
                             "image": "paulbouwer/hello-kubernetes:1.5",
-                            "ports": [{"containerPort": 8080}],
+                            "ports": [{"containerPort": 3000}],
                             "resources": {
                                 "requests": {
                                     "memory": "1024Mi",
@@ -110,7 +110,7 @@ class CdkNewAppStack(Stack):
                          "namespace": "maxapp"},
             "spec": {
                 "type": "NodePort",
-                "ports": [{"port": 8080, "targetPort": 8080}],
+                "ports": [{"port": 3000, "targetPort": 3000}],
                 "selector": app_label
             }
         }
@@ -127,7 +127,7 @@ class CdkNewAppStack(Stack):
             },
             "spec": {
                 "ingressClassName": "alb",
-                "rules": [{"http": {"paths": [{"path": "/", "pathType": "Prefix", "backend": {"service": {"name": "hello-kubernetes", "port": {"number": 8080}}}}]}}]
+                "rules": [{"http": {"paths": [{"path": "/", "pathType": "Prefix", "backend": {"service": {"name": "hello-kubernetes", "port": {"number": 3000}}}}]}}]
             }
         }
 
