@@ -117,6 +117,6 @@ jobs:
           python3 -m venv .venv
           source .venv/bin/activate
           python -m pip install -r requirements.txt
-          cdk deploy --require-approval never
+          cdk destroy --require-approval never
 
       - run: echo "🍏 This job's status is ${{ job.status }}."
