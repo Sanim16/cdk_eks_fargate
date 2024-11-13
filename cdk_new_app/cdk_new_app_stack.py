@@ -100,7 +100,7 @@ class CdkNewAppStack(Stack):
                          "namespace": "maxapp"},
             "spec": {
                 "type": "NodePort",
-                "ports": [{"port": 80, "targetPort": 3000}],
+                "ports": [{"port": 3000, "targetPort": 3000}],
                 "selector": app_label
             }
         }
