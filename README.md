@@ -23,8 +23,11 @@ This project is set up like a standard Python project.  The initialization proce
 a virtualenv within the project, stored under the .venv directory.  To create the virtualenv
 it assumes that there is a `python3` executable in your path with access to the `venv` package.
 
+```
+$ python3 -m venv .venv
+```
 
-After the init process completes and the virtualenv is created, you can use the following
+After the virtualenv is created, you can use the following
 step to activate your virtualenv.
 
 ```
@@ -62,5 +65,15 @@ command.
  * `cdk deploy`      deploy this stack to your default AWS account/region
  * `cdk diff`        compare deployed stack with current state
  * `cdk docs`        open CDK documentation
+
+p.s: To deploy the infrastructure and the app:
+* uncomment the `venv` step in the `deploy` job in `./.github/workflows/deploy.yml`
+* comment out the `venv-teardown` step also.
+
+## Cleanup
+Remember to delete all AWS components afterwards to avoid unforseen bills.
+To tear down the infrastructure and the app:
+* comment out the `venv` step in the `deploy` job in `./.github/workflows/deploy.yml`
+* uncomment the `venv-teardown` step in the `deploy` job in `./.github/workflows/deploy.yml`
 
 Enjoy!

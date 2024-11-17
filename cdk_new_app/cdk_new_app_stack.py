@@ -15,7 +15,7 @@ class CdkNewAppStack(Stack):
         super().__init__(scope, construct_id, **kwargs)
 
         vpc = ec2.Vpc(
-            self, "CdkNewAppVpc", vpc_name="newvpc"
+            self, "CdkNewAppVpc", vpc_name="newvpc", ip_addresses=ec2.IpAddresses.cidr("10.0.0.0/16")
         )
 
         mySecurityGroup = ec2.SecurityGroup(self, "SecurityGroup", vpc=vpc,
